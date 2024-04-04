@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <title>DietPi Login</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #ccc;
+            background-color: #0f0f0f;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            margin: 10%;
+            min-width: 300px;
+            width: 400px;
+            padding: 20px;
+            background-color: #151515;
+            border-radius: 8px;
+            box-shadow: 0px 10px 15px rgba(103, 29, 221, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 16px;
+            margin-bottom: 32px;
+        }
+
+        form {
+            padding-left: 16px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #3a3a3a;
+            color: #ccc;
+            background-color: #151515;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: medium;
+        }
+
+        button {
+            background-color: #671ddd;
+            color: white;
+            font-weight: bold;
+            font-size: medium;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5618bb;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        #validation-error {
+            color: rgb(255, 25, 25);
+            font-weight: bold;
+            font-size: medium;
+            margin-bottom: 24px;
+        }
+
+        .hidden {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <!-- action="/api/login" -->
+        <form id="loginForm" onsubmit="return false">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <div id="validation-error" class="hidden"> Wrong credentials</div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/auth/login',
+                    data: formData,
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        $('#validation-error').removeClass('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
