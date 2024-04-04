@@ -11,7 +11,7 @@ authRouter.get('/', (req: Request, res: Response, next: Function) => {
     }
 
     if (!("token" in req.cookies)) {
-        return res.status(401).json({ error: 'Unauthorized: Multiple tokens found' });
+        return res.status(401).json({ error: 'Unauthorized: No token found' });
     }
 
     let token = req.cookies.token as string;
